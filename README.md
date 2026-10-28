@@ -1,5 +1,13 @@
 # VFX Claude Skills
 
+![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-blue) ![No dependencies](https://img.shields.io/badge/dependencies-none-brightgreen) ![Nuke](https://img.shields.io/badge/Nuke-13%2B-yellow)
+
+![validate_nk.py catching the mistakes in a typical AI-written gizmo](assets/validator-demo.png)
+
+*The gizmo above is what a general-purpose model typically writes on the first try.
+Nuke would refuse to load it. The skill makes Claude write it right, and the validator
+catches what slips through.*
+
 Agent skills for Claude, written by a working VFX compositor. They package the things a
 general-purpose model gets wrong when you ask it for real pipeline work: Nuke gizmo syntax,
 ASC CDL files and EXR metadata, and shipping a small free tool on Windows without it being
@@ -13,6 +21,21 @@ reference notes, and small standard-library Python scripts it can run.
 | [`nuke-gizmo-builder`](skills/nuke-gizmo-builder) | Writing native `.gizmo` / Group `.nk` text that loads first time: knob IDs, Link knobs, expressions, the real Grade knob names, the wiring stack, design rules. Includes `validate_nk.py`, a static checker, and an example gizmo. |
 | [`vfx-cdl-pipeline`](skills/vfx-cdl-pipeline) | Parsing `.cc` / `.cdl` / `.ccc` files (with the real-world quirks), reading EXR headers without dependencies, matching plates to CDLs with a dry-run plan, writing single `.cc` files. |
 | [`windows-free-tool-release`](skills/windows-free-tool-release) | Turning a script into a Windows exe people trust: PyInstaller choices, Defender vs SmartScreen, unsigned-exe disclosure, Explorer context menus and overlays on Windows 11, release checklist. |
+
+## Try it in 30 seconds
+
+No Nuke, no install, just Python:
+
+```
+git clone https://github.com/Marshallaltair/vfx-claude-skills
+cd vfx-claude-skills
+python skills/nuke-gizmo-builder/scripts/validate_nk.py skills/nuke-gizmo-builder/examples/BrokenGrade.gizmo --no-python
+python skills/nuke-gizmo-builder/scripts/validate_nk.py skills/nuke-gizmo-builder/examples/ExampleGrade.gizmo
+```
+
+`BrokenGrade.gizmo` collects the usual mistakes (Link knobs to `lift`/`gain` instead of
+`black`/`white`, a value before its `addUserKnob`, a missing `end_group` and Output, Python
+callbacks in a "native" tool, a hard-coded path). `ExampleGrade.gizmo` is the fixed version.
 
 ## Install
 

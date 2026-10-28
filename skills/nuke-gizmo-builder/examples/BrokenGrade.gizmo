@@ -1,0 +1,24 @@
+#! nuke -nx
+version 13.0 v1
+Gizmo {
+ inputs 1
+ help "BrokenGrade: the kind of gizmo a general-purpose model writes on the first try.\nEvery mistake here is deliberate. Run validate_nk.py on it to see them caught.\nThe fixed version is ExampleGrade.gizmo."
+ exposure 0
+ addUserKnob {20 BrokenGrade}
+ addUserKnob {41 lift l lift T Grade1.lift}
+ addUserKnob {41 gain l gain T Grade1.gain}
+ addUserKnob {41 gamma l gamma T Grade2.gamma}
+ addUserKnob {7 exposure l "exposure (stops)" R -4 4}
+ knobChanged "nuke.thisNode()['mix'].setValue(1)"
+ addUserKnob {22 reset l Reset T "nuke.thisNode()['exposure'].setValue(0)"}
+}
+ Read {
+  inputs 0
+  file C:/Users/someone/Desktop/test_plate.####.exr
+  name Read1
+ }
+ Grade {
+  name Grade1
+  multiply {{pow(2,parent.exposure)}}
+  mix {{parent.mix}}
+ }
