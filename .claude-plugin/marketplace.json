@@ -1,0 +1,23 @@
+{
+  "name": "vfx-claude-skills",
+  "owner": {
+    "name": "Giovanni Ricco"
+  },
+  "metadata": {
+    "description": "Claude skills for VFX pipeline work: Nuke gizmos, ASC CDL and EXR metadata, releasing free Windows tools.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "vfx-claude-skills",
+      "description": "Nuke gizmo builder, CDL/EXR pipeline tools and Windows tool release checklist.",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/nuke-gizmo-builder",
+        "./skills/vfx-cdl-pipeline",
+        "./skills/windows-free-tool-release"
+      ]
+    }
+  ]
+}
