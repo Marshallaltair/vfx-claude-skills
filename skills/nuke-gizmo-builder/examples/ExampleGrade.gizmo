@@ -1,0 +1,44 @@
+#! nuke -nx
+version 13.0 v1
+Gizmo {
+ inputs 1
+ tile_color 0x5c8ad6ff
+ help "ExampleGrade v1.0\n\nReference gizmo for the nuke-gizmo-builder skill.\nShows: a named tab, Link knobs to a Grade (with the real knob names behind the UI labels), a derived knob driven by an expression, tooltips, a collapsible group and a credit line.\n\nInput: Source.\nLicence: MIT."
+ addUserKnob {20 ExampleGrade}
+ addUserKnob {41 blackpoint l blackpoint t "Input value that becomes black" T Grade1.blackpoint}
+ addUserKnob {41 whitepoint l whitepoint t "Input value that becomes white" T Grade1.whitepoint}
+ addUserKnob {41 black l lift t "Lift (Grade knob: black)" T Grade1.black}
+ addUserKnob {41 white l gain t "Gain (Grade knob: white)" T Grade1.white}
+ addUserKnob {41 gamma l gamma T Grade1.gamma}
+ addUserKnob {41 add l offset t "Offset (Grade knob: add)" T Grade1.add}
+ addUserKnob {7 exposure l "exposure (stops)" t "Extra exposure in stops, applied as multiply = 2^stops" R -4 4}
+ exposure 0
+ addUserKnob {20 adv l Advanced n 1}
+ addUserKnob {41 black_clamp l "black clamp" T Grade1.black_clamp}
+ addUserKnob {41 white_clamp l "white clamp" -STARTLINE T Grade1.white_clamp}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {26 ""}
+ addUserKnob {7 mix l mix t "Blend between the input and the result" R 0 1}
+ mix 1
+ addUserKnob {26 credit l "" +STARTLINE T "ExampleGrade v1.0"}
+}
+ Input {
+  inputs 0
+  name Source
+  xpos 0
+  ypos 0
+ }
+ Grade {
+  name Grade1
+  multiply {{pow(2,parent.exposure)}}
+  black_clamp false
+  mix {{parent.mix}}
+  xpos 0
+  ypos 100
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 200
+ }
+end_group
